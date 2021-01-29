@@ -1,113 +1,45 @@
 package main;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.io.FileNotFoundException;
-
+/**
+ * This class formats the messages and keys provided to it and returns them so 
+ * that they can be used for encryption and decryption with the CaesarCipher 
+ * and Vigenere cipher.
+ * @author Krishan Arora
+ * @version 1.5
+ */
 public class Parser {
-
-	Scanner decCaesar = new Scanner(new File("caesar_ciphertext.txt"));
-	Scanner decCaesarKeys = new Scanner(new File("caesar_ciphertext.txt"));
-	Scanner encCaesar = new Scanner(new File("caesar_plaintext.txt"));
-	Scanner encCaesarKeys = new Scanner(new File("caesar_plaintext.txt"));
-	Scanner decVigen = new Scanner(new File("vigenere_ciphertext.txt"));
-	Scanner decVigenKeys = new Scanner(new File("vigenere_ciphertext.txt"));
-	Scanner encVigen = new Scanner(new File("vigenere_plaintext.txt"));
-	Scanner encVigenKeys = new Scanner(new File("vigenere_plaintext.txt"));
 	
-	private int toDecryptCKey;
-	private ArrayList<Integer> toDecryptCaesarKeys = new ArrayList<>();
+	private int cKey;
+	private String formattedMessage;
+
+	public Parser() {
+		cKey = 0;
+		formattedMessage = "";
+	}
 	
-	private int toEncryptCKey;
-	private ArrayList<Integer> toEncryptCaesarKeys = new ArrayList<>();
+	/**
+	 * This method converts the String representation of the key for the CaesarCipher 
+	 * into an integer so that it can be used in encryption or decryption.
+	 * @param key the String to be converted into an integer
+	 * @return the integer key for use with the CaesarCipher
+	 */
+	protected int getCaesarKey(String key){
+		cKey = Integer.parseInt(key);
 
-	private String toDecryptC;
-	private ArrayList<String> toDecryptCaesarMessages = new ArrayList<>();
+		return cKey;
+	}
 
-	private String toEncryptC;
-	private ArrayList<String> toEncryptCaesarMessages = new ArrayList<>();
-
-	private String toEncryptVKey;
-	private ArrayList<String> toEncryptVigenKey = new ArrayList<>();
-
-	private String toDecryptVKey;
-	private ArrayList<String> toDecryptVigenKey = new ArrayList<>();
-	
-	private String toDecryptV;
-	private ArrayList<String> toDecryptVigenMessages = new ArrayList<>();
-
-	private String toEncryptV;
-	private ArrayList<String> toEncryptVigenMessages = new ArrayList<>();
-
-	
-
-	public Parser() throws FileNotFoundException {
-		toDecryptCKey = 0;
-		toDecryptC = "";
-		toEncryptCKey = 0;
-		toEncryptC = "";
+	/**
+	 * This method takes in a String and formats it so that it is uppercase and 
+	 * does not have any spaces in it, and returns the formatted version to be used
+	 * with either Cipher class. 
+	 * @param message the message to be formatted
+	 * @return the formatted message to be encrypted or decrypted
+	 */
+	protected String getFormattedMessage(String message) {		
+		formattedMessage = message.toUpperCase();
+		formattedMessage = formattedMessage.replaceAll("\\s+", "");
 		
-		toEncryptVKey = "";
-		toEncryptV = "";
-		toDecryptVKey = "";
-		toDecryptV = "";		
-	}
-	
-	protected ArrayList<Integer> getDecCaesarKey() {
-		while(decCaesarKeys.hasNextLine()) {
-			toDecryptCKey = decCaesarKeys.nextInt();
-			toDecryptCaesarKeys.add(toDecryptCKey);
-			decCaesarKeys.nextLine();
-		}
-		
-		return toDecryptCaesarKeys;
-	}
-	
-	protected ArrayList<String> getDecCaesarMessage() {
-		while(decCaesar.hasNextLine()) {
-			int key = decCaesar.nextInt();
-			toDecryptC = decCaesar.next();			
-			toDecryptCaesarMessages.add(toDecryptC);
-		}
-		return toDecryptCaesarMessages;
-	}
-	
-	protected ArrayList<Integer> getEncCaesarKey() {
-		while(encCaesarKeys.hasNextLine()) {
-			toEncryptCKey = encCaesarKeys.nextInt();
-			toEncryptCaesarKeys.add(toEncryptCKey);
-			encCaesarKeys.nextLine();
-		}
-		
-		return toEncryptCaesarKeys;
-	}
-	
-	protected ArrayList<String> getEncCaesarMessage() {
-		while(encCaesar.hasNextLine()) {
-			int key = encCaesar.nextInt();
-			toEncryptC = encCaesar.nextLine();			
-			toEncryptCaesarMessages.add(toEncryptC);
-		}
-		return toEncryptCaesarMessages;
-	}
-	
-	protected ArrayList<String> getDecVigenereKeys() {
-		while(decVigenKeys.hasNextLine()) {			
-			toDecryptVKey = decVigenKeys.next();			
-			toDecryptVigenKey.add(toDecryptVKey);
-		}
-		return toDecryptVigenKey;
-	}
-	
-	protected ArrayList<String> getDecVigenereMessage() {
-		while(decVigen.hasNextLine()) {		
-			String key = decVigen.next();
-			toDecryptV = decVigen.nextLine();			
-			toDecryptVigenMessages.add(toDecryptV);
-		}
-		return toDecryptVigenMessages;
-	}
-	
-	
+		return formattedMessage;
+	}	
 }
